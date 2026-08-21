@@ -27,19 +27,23 @@ Every code box below is **live** — click **Run ▶** to execute it for real, e
 Given two choices, `"rock"`, `"paper"`, or `"scissors"`, an `if` / `else if` chain decides the outcome. Each branch is a **boolean expression** — a condition that's either `true` or `false`.
 
 ```java
-String player = "rock";
-String computer = "scissors";
+public class Main {
+    public static void main(String[] args) {
+        String player = "rock";
+        String computer = "scissors";
 
-if (player.equals(computer)) {
-    System.out.println("Tie!");
-} else if (player.equals("rock") && computer.equals("scissors")) {
-    System.out.println("Player wins!");
-} else if (player.equals("paper") && computer.equals("rock")) {
-    System.out.println("Player wins!");
-} else if (player.equals("scissors") && computer.equals("paper")) {
-    System.out.println("Player wins!");
-} else {
-    System.out.println("Computer wins!");
+        if (player.equals(computer)) {
+            System.out.println("Tie!");
+        } else if (player.equals("rock") && computer.equals("scissors")) {
+            System.out.println("Player wins!");
+        } else if (player.equals("paper") && computer.equals("rock")) {
+            System.out.println("Player wins!");
+        } else if (player.equals("scissors") && computer.equals("paper")) {
+            System.out.println("Player wins!");
+        } else {
+            System.out.println("Computer wins!");
+        }
+    }
 }
 ```
 
@@ -81,18 +85,22 @@ Finish the <code>else if</code> chain so all nine combinations of <code>player</
 {% endcapture %}
 
 {% capture code_selection %}
-String player = "paper";
-String computer = "rock";
+public class Main {
+    public static void main(String[] args) {
+        String player = "paper";
+        String computer = "rock";
 
-if (player.equals(computer)) {
-    System.out.println("Tie!");
-} else if (player.equals("rock") && computer.equals("scissors")) {
-    System.out.println("Player wins!");
-} else if (player.equals("paper") && computer.equals("rock")) {
-    System.out.println("Player wins!");
+        if (player.equals(computer)) {
+            System.out.println("Tie!");
+        } else if (player.equals("rock") && computer.equals("scissors")) {
+            System.out.println("Player wins!");
+        } else if (player.equals("paper") && computer.equals("rock")) {
+            System.out.println("Player wins!");
+        }
+        // TODO: add the missing branch for scissors beats paper
+        // TODO: add the final `else` for every case where the computer wins
+    }
 }
-// TODO: add the missing branch for scissors beats paper
-// TODO: add the final `else` for every case where the computer wins
 {% endcapture %}
 
 {% include runners/code.html
@@ -110,23 +118,27 @@ if (player.equals(computer)) {
 A single round isn't a game. A `while` loop lets us **iterate** — repeat the round logic until someone has won twice.
 
 ```java
-int playerWins = 0;
-int computerWins = 0;
-int round = 0;
+public class Main {
+    public static void main(String[] args) {
+        int playerWins = 0;
+        int computerWins = 0;
+        int round = 0;
 
-while (playerWins < 2 && computerWins < 2) {
-    round++;
-    // (Pretend this picks random choices and compares them)
-    boolean playerWonThisRound = (round % 2 == 0); // stand-in logic
-    if (playerWonThisRound) {
-        playerWins++;
-    } else {
-        computerWins++;
+        while (playerWins < 2 && computerWins < 2) {
+            round++;
+            // (Pretend this picks random choices and compares them)
+            boolean playerWonThisRound = (round % 2 == 0); // stand-in logic
+            if (playerWonThisRound) {
+                playerWins++;
+            } else {
+                computerWins++;
+            }
+            System.out.println("Round " + round + " — Player: " + playerWins + ", Computer: " + computerWins);
+        }
+
+        System.out.println(playerWins > computerWins ? "Player wins the match!" : "Computer wins the match!");
     }
-    System.out.println("Round " + round + " — Player: " + playerWins + ", Computer: " + computerWins);
 }
-
-System.out.println(playerWins > computerWins ? "Player wins the match!" : "Computer wins the match!");
 ```
 
 Notice the **loop condition**, `playerWins < 2 && computerWins < 2` — it's a boolean expression, just like Step 1's `if` conditions. The loop keeps iterating as long as it stays `true`.
@@ -136,24 +148,28 @@ Change the loop so it plays <strong>best of five</strong> instead of best of thr
 {% endcapture %}
 
 {% capture code_loop %}
-int playerWins = 0;
-int computerWins = 0;
-int round = 0;
+public class Main {
+    public static void main(String[] args) {
+        int playerWins = 0;
+        int computerWins = 0;
+        int round = 0;
 
-while (playerWins < 2 && computerWins < 2) {
-    round++;
-    boolean playerWonThisRound = (round % 2 == 0); // stand-in logic
-    if (playerWonThisRound) {
-        playerWins++;
-    } else {
-        computerWins++;
+        while (playerWins < 2 && computerWins < 2) {
+            round++;
+            boolean playerWonThisRound = (round % 2 == 0); // stand-in logic
+            if (playerWonThisRound) {
+                playerWins++;
+            } else {
+                computerWins++;
+            }
+            System.out.println("Round " + round + " — Player: " + playerWins + ", Computer: " + computerWins);
+        }
+
+        // TODO: change the win target from 2 to 3 (best of five)
+        // TODO: also stop the loop after round 5, even without a winner
+        System.out.println(playerWins > computerWins ? "Player wins the match!" : "Computer wins the match!");
     }
-    System.out.println("Round " + round + " — Player: " + playerWins + ", Computer: " + computerWins);
 }
-
-// TODO: change the win target from 2 to 3 (best of five)
-// TODO: also stop the loop after round 5, even without a winner
-System.out.println(playerWins > computerWins ? "Player wins the match!" : "Computer wins the match!");
 {% endcapture %}
 
 {% include runners/code.html
@@ -171,13 +187,17 @@ System.out.println(playerWins > computerWins ? "Player wins the match!" : "Compu
 To simulate several players each playing several rounds, put a loop **inside** a loop. The outer loop walks through players; the inner loop walks through that player's rounds.
 
 ```java
-String[] players = {"Ada", "Grace", "Alan"};
-int roundsPerPlayer = 3;
+public class Main {
+    public static void main(String[] args) {
+        String[] players = {"Ada", "Grace", "Alan"};
+        int roundsPerPlayer = 3;
 
-for (int p = 0; p < players.length; p++) {
-    System.out.println(players[p] + "'s rounds:");
-    for (int r = 1; r <= roundsPerPlayer; r++) {
-        System.out.println("  Round " + r + " played");
+        for (int p = 0; p < players.length; p++) {
+            System.out.println(players[p] + "'s rounds:");
+            for (int r = 1; r <= roundsPerPlayer; r++) {
+                System.out.println("  Round " + r + " played");
+            }
+        }
     }
 }
 ```
@@ -189,13 +209,17 @@ Add a fourth player, <code>"Katherine"</code>, to the <code>players</code> array
 {% endcapture %}
 
 {% capture code_nested %}
-String[] players = {"Ada", "Grace", "Alan"};
-int roundsPerPlayer = 3;
+public class Main {
+    public static void main(String[] args) {
+        String[] players = {"Ada", "Grace", "Alan"};
+        int roundsPerPlayer = 3;
 
-for (int p = 0; p < players.length; p++) {
-    System.out.println(players[p] + "'s rounds:");
-    for (int r = 1; r <= roundsPerPlayer; r++) {
-        System.out.println("  Round " + r + " played");
+        for (int p = 0; p < players.length; p++) {
+            System.out.println(players[p] + "'s rounds:");
+            for (int r = 1; r <= roundsPerPlayer; r++) {
+                System.out.println("  Round " + r + " played");
+            }
+        }
     }
 }
 {% endcapture %}

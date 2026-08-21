@@ -46,11 +46,12 @@ public class TicTacToeBoard {
             if (i % 3 == 2) System.out.println();
         }
     }
-}
 
-// --- Try it ---
-TicTacToeBoard board = new TicTacToeBoard();
-board.print();
+    public static void main(String[] args) {
+        TicTacToeBoard board = new TicTacToeBoard();
+        board.print();
+    }
+}
 ```
 
 `this.cells` refers to *this particular object's* array. Without `this`, `cells` inside the constructor could be ambiguous if a parameter happened to share the name — `this` always means "the field that belongs to me."
@@ -78,10 +79,12 @@ public class TicTacToeBoard {
             if (i % 3 == 2) System.out.println();
         }
     }
-}
 
-TicTacToeBoard board = new TicTacToeBoard();
-board.print();
+    public static void main(String[] args) {
+        TicTacToeBoard board = new TicTacToeBoard();
+        board.print();
+    }
+}
 {% endcapture %}
 
 {% include runners/code.html
@@ -164,12 +167,14 @@ public class TicTacToeBoard {
             if (i % 3 == 2) System.out.println();
         }
     }
-}
 
-TicTacToeBoard board = new TicTacToeBoard();
-// TODO: mark index 0 with 'X', print the result
-// TODO: try marking index 0 again with 'O', print the result
-board.print();
+    public static void main(String[] args) {
+        TicTacToeBoard board = new TicTacToeBoard();
+        // TODO: mark index 0 with 'X', print the result
+        // TODO: try marking index 0 again with 'O', print the result
+        board.print();
+    }
+}
 {% endcapture %}
 
 {% include runners/code.html
@@ -202,12 +207,14 @@ public class TicTacToeBoard {
     public static int getBoardsCreated() {
         return boardsCreated;
     }
-}
 
-TicTacToeBoard a = new TicTacToeBoard();
-TicTacToeBoard b = new TicTacToeBoard();
-TicTacToeBoard c = new TicTacToeBoard();
-System.out.println("Boards created: " + TicTacToeBoard.getBoardsCreated());
+    public static void main(String[] args) {
+        TicTacToeBoard a = new TicTacToeBoard();
+        TicTacToeBoard b = new TicTacToeBoard();
+        TicTacToeBoard c = new TicTacToeBoard();
+        System.out.println("Boards created: " + TicTacToeBoard.getBoardsCreated());
+    }
+}
 ```
 
 Notice `TicTacToeBoard.getBoardsCreated()` is called on the **class**, not on `a`, `b`, or `c` — because the count doesn't belong to any one board, it belongs to the class itself.
@@ -233,12 +240,14 @@ public class TicTacToeBoard {
     public static int getBoardsCreated() {
         return boardsCreated;
     }
-}
 
-TicTacToeBoard a = new TicTacToeBoard();
-TicTacToeBoard b = new TicTacToeBoard();
-TicTacToeBoard c = new TicTacToeBoard();
-System.out.println("Boards created: " + TicTacToeBoard.getBoardsCreated());
+    public static void main(String[] args) {
+        TicTacToeBoard a = new TicTacToeBoard();
+        TicTacToeBoard b = new TicTacToeBoard();
+        TicTacToeBoard c = new TicTacToeBoard();
+        System.out.println("Boards created: " + TicTacToeBoard.getBoardsCreated());
+    }
+}
 {% endcapture %}
 
 {% include runners/code.html

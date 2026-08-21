@@ -29,16 +29,20 @@ Every code box below is **live** — click **Run ▶** to execute it for real, e
 An array holds a **fixed number** of values of the same type. A `for` loop **traverses** it — visits every element in order.
 
 ```java
-int[] cookieSales = {42, 58, 39, 71, 64, 80, 55}; // one week, Sun-Sat
+public class Main {
+    public static void main(String[] args) {
+        int[] cookieSales = {42, 58, 39, 71, 64, 80, 55}; // one week, Sun-Sat
 
-int total = 0;
-for (int i = 0; i < cookieSales.length; i++) {
-    total += cookieSales[i];
+        int total = 0;
+        for (int i = 0; i < cookieSales.length; i++) {
+            total += cookieSales[i];
+        }
+        double average = (double) total / cookieSales.length;
+
+        System.out.println("Total sold: " + total);
+        System.out.println("Average per day: " + average);
+    }
 }
-double average = (double) total / cookieSales.length;
-
-System.out.println("Total sold: " + total);
-System.out.println("Average per day: " + average);
 ```
 
 Notice `(double) total / cookieSales.length` — without that cast, `int / int` truncates and you'd lose the decimal part of the average.
@@ -48,18 +52,22 @@ Run the code to see the weekly total and average. Then add code that finds the <
 {% endcapture %}
 
 {% capture code_array %}
-int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
+public class Main {
+    public static void main(String[] args) {
+        int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
 
-int total = 0;
-for (int i = 0; i < cookieSales.length; i++) {
-    total += cookieSales[i];
+        int total = 0;
+        for (int i = 0; i < cookieSales.length; i++) {
+            total += cookieSales[i];
+        }
+        double average = (double) total / cookieSales.length;
+
+        System.out.println("Total sold: " + total);
+        System.out.println("Average per day: " + average);
+
+        // TODO: traverse cookieSales again and find the largest value (busiest day)
+    }
 }
-double average = (double) total / cookieSales.length;
-
-System.out.println("Total sold: " + total);
-System.out.println("Average per day: " + average);
-
-// TODO: traverse cookieSales again and find the largest value (busiest day)
 {% endcapture %}
 
 {% include runners/code.html
@@ -79,17 +87,21 @@ Arrays can't grow. An `ArrayList` can — but it only stores **objects**, not pr
 ```java
 import java.util.ArrayList;
 
-ArrayList<Integer> orders = new ArrayList<Integer>();
-orders.add(12);   // autoboxed: int 12 -> Integer.valueOf(12)
-orders.add(7);
-orders.add(19);
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> orders = new ArrayList<Integer>();
+        orders.add(12);   // autoboxed: int 12 -> Integer.valueOf(12)
+        orders.add(7);
+        orders.add(19);
 
-int firstOrder = orders.get(0); // auto-unboxed: Integer -> int
+        int firstOrder = orders.get(0); // auto-unboxed: Integer -> int
 
-for (int order : orders) {
-    System.out.println("Order size: " + order);
+        for (int order : orders) {
+            System.out.println("Order size: " + order);
+        }
+        System.out.println("Number of orders: " + orders.size());
+    }
 }
-System.out.println("Number of orders: " + orders.size());
 ```
 
 <div class="rpn-popcorn">
@@ -132,18 +144,22 @@ Add two more orders to the <code>ArrayList</code>. Then write a loop that comput
 {% capture code_arraylist %}
 import java.util.ArrayList;
 
-ArrayList<Integer> orders = new ArrayList<Integer>();
-orders.add(12);
-orders.add(7);
-orders.add(19);
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Integer> orders = new ArrayList<Integer>();
+        orders.add(12);
+        orders.add(7);
+        orders.add(19);
 
-// TODO: add two more orders
+        // TODO: add two more orders
 
-for (int order : orders) {
-    System.out.println("Order size: " + order);
+        for (int order : orders) {
+            System.out.println("Order size: " + order);
+        }
+        System.out.println("Number of orders: " + orders.size());
+        // TODO: compute and print the total of all orders
+    }
 }
-System.out.println("Number of orders: " + orders.size());
-// TODO: compute and print the total of all orders
 {% endcapture %}
 
 {% include runners/code.html
@@ -161,22 +177,26 @@ System.out.println("Number of orders: " + orders.size());
 A `int[][]` is an array of arrays — perfect for a grid, like a month of sales broken into weeks. A **nested loop** traverses it: the outer loop picks the row, the inner loop walks across that row.
 
 ```java
-int[][] monthlySales = {
-    {42, 58, 39, 71, 64, 80, 55}, // Week 1
-    {50, 62, 45, 68, 70, 85, 60}, // Week 2
-    {38, 55, 40, 65, 58, 75, 50}  // Week 3
-};
+public class Main {
+    public static void main(String[] args) {
+        int[][] monthlySales = {
+            {42, 58, 39, 71, 64, 80, 55}, // Week 1
+            {50, 62, 45, 68, 70, 85, 60}, // Week 2
+            {38, 55, 40, 65, 58, 75, 50}  // Week 3
+        };
 
-int monthTotal = 0;
-for (int week = 0; week < monthlySales.length; week++) {
-    int weekTotal = 0;
-    for (int day = 0; day < monthlySales[week].length; day++) {
-        weekTotal += monthlySales[week][day];
+        int monthTotal = 0;
+        for (int week = 0; week < monthlySales.length; week++) {
+            int weekTotal = 0;
+            for (int day = 0; day < monthlySales[week].length; day++) {
+                weekTotal += monthlySales[week][day];
+            }
+            System.out.println("Week " + (week + 1) + " total: " + weekTotal);
+            monthTotal += weekTotal;
+        }
+        System.out.println("Month total: " + monthTotal);
     }
-    System.out.println("Week " + (week + 1) + " total: " + weekTotal);
-    monthTotal += weekTotal;
 }
-System.out.println("Month total: " + monthTotal);
 ```
 
 {% capture challenge_2d %}
@@ -184,26 +204,30 @@ Add a fourth week to <code>monthlySales</code>. Then find the single <strong>bus
 {% endcapture %}
 
 {% capture code_2d %}
-int[][] monthlySales = {
-    {42, 58, 39, 71, 64, 80, 55},
-    {50, 62, 45, 68, 70, 85, 60},
-    {38, 55, 40, 65, 58, 75, 50}
-};
+public class Main {
+    public static void main(String[] args) {
+        int[][] monthlySales = {
+            {42, 58, 39, 71, 64, 80, 55},
+            {50, 62, 45, 68, 70, 85, 60},
+            {38, 55, 40, 65, 58, 75, 50}
+        };
 
-// TODO: add a 4th week array
+        // TODO: add a 4th week array
 
-int monthTotal = 0;
-for (int week = 0; week < monthlySales.length; week++) {
-    int weekTotal = 0;
-    for (int day = 0; day < monthlySales[week].length; day++) {
-        weekTotal += monthlySales[week][day];
+        int monthTotal = 0;
+        for (int week = 0; week < monthlySales.length; week++) {
+            int weekTotal = 0;
+            for (int day = 0; day < monthlySales[week].length; day++) {
+                weekTotal += monthlySales[week][day];
+            }
+            System.out.println("Week " + (week + 1) + " total: " + weekTotal);
+            monthTotal += weekTotal;
+        }
+        System.out.println("Month total: " + monthTotal);
+
+        // TODO: traverse monthlySales again to find the single busiest day
     }
-    System.out.println("Week " + (week + 1) + " total: " + weekTotal);
-    monthTotal += weekTotal;
 }
-System.out.println("Month total: " + monthTotal);
-
-// TODO: traverse monthlySales again to find the single busiest day
 {% endcapture %}
 
 {% include runners/code.html
@@ -223,22 +247,26 @@ System.out.println("Month total: " + monthTotal);
 ```java
 import java.util.Arrays;
 
-int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
+public class Main {
+    public static void main(String[] args) {
+        int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
 
-// Linear search: is there a day with exactly 71 sales?
-boolean found = false;
-for (int i = 0; i < cookieSales.length; i++) {
-    if (cookieSales[i] == 71) {
-        found = true;
-        System.out.println("Found 71 sales on day index " + i);
-        break;
+        // Linear search: is there a day with exactly 71 sales?
+        boolean found = false;
+        for (int i = 0; i < cookieSales.length; i++) {
+            if (cookieSales[i] == 71) {
+                found = true;
+                System.out.println("Found 71 sales on day index " + i);
+                break;
+            }
+        }
+        if (!found) System.out.println("No day had exactly 71 sales.");
+
+        // Sorting
+        Arrays.sort(cookieSales);
+        System.out.println("Sorted: " + Arrays.toString(cookieSales));
     }
 }
-if (!found) System.out.println("No day had exactly 71 sales.");
-
-// Sorting
-Arrays.sort(cookieSales);
-System.out.println("Sorted: " + Arrays.toString(cookieSales));
 ```
 
 {% capture challenge_search %}
@@ -248,23 +276,27 @@ Run the code, then write your own linear search that looks for a day with <stron
 {% capture code_search %}
 import java.util.Arrays;
 
-int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
+public class Main {
+    public static void main(String[] args) {
+        int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
 
-boolean found = false;
-for (int i = 0; i < cookieSales.length; i++) {
-    if (cookieSales[i] == 71) {
-        found = true;
-        System.out.println("Found 71 sales on day index " + i);
-        break;
+        boolean found = false;
+        for (int i = 0; i < cookieSales.length; i++) {
+            if (cookieSales[i] == 71) {
+                found = true;
+                System.out.println("Found 71 sales on day index " + i);
+                break;
+            }
+        }
+        if (!found) System.out.println("No day had exactly 71 sales.");
+
+        Arrays.sort(cookieSales);
+        System.out.println("Sorted: " + Arrays.toString(cookieSales));
+
+        // TODO: linear search for 39 in the ORIGINAL (unsorted) order — do it before the sort runs
+        // TODO: try Arrays.binarySearch(cookieSales, 55) on the sorted array and print the result
     }
 }
-if (!found) System.out.println("No day had exactly 71 sales.");
-
-Arrays.sort(cookieSales);
-System.out.println("Sorted: " + Arrays.toString(cookieSales));
-
-// TODO: linear search for 39 in the ORIGINAL (unsorted) order — do it before the sort runs
-// TODO: try Arrays.binarySearch(cookieSales, 55) on the sorted array and print the result
 {% endcapture %}
 
 {% include runners/code.html
@@ -282,15 +314,19 @@ System.out.println("Sorted: " + Arrays.toString(cookieSales));
 A **recursive** method solves a problem by calling itself on a smaller version of the same problem, until it reaches a **base case** simple enough to answer directly.
 
 ```java
-public static int recursiveSum(int[] arr, int index) {
-    if (index == arr.length) {   // base case: nothing left to add
-        return 0;
+public class Main {
+    public static int recursiveSum(int[] arr, int index) {
+        if (index == arr.length) {   // base case: nothing left to add
+            return 0;
+        }
+        return arr[index] + recursiveSum(arr, index + 1); // recursive case
     }
-    return arr[index] + recursiveSum(arr, index + 1); // recursive case
-}
 
-int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
-System.out.println("Recursive total: " + recursiveSum(cookieSales, 0));
+    public static void main(String[] args) {
+        int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
+        System.out.println("Recursive total: " + recursiveSum(cookieSales, 0));
+    }
+}
 ```
 
 Compare this to Step 1's loop-based sum — same answer, different technique. The loop repeats; the recursive method delegates to a smaller version of itself, one element closer to the base case each time.
@@ -300,18 +336,22 @@ Trace through <code>recursiveSum</code> by hand for a 3-element array before run
 {% endcapture %}
 
 {% capture code_recursion %}
-public static int recursiveSum(int[] arr, int index) {
-    if (index == arr.length) {
-        return 0;
+public class Main {
+    public static int recursiveSum(int[] arr, int index) {
+        if (index == arr.length) {
+            return 0;
+        }
+        return arr[index] + recursiveSum(arr, index + 1);
     }
-    return arr[index] + recursiveSum(arr, index + 1);
+
+    // TODO: write recursiveMax(int[] arr, int index) — think about what the base case should return
+
+    public static void main(String[] args) {
+        int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
+        System.out.println("Recursive total: " + recursiveSum(cookieSales, 0));
+        // TODO: call and print recursiveMax(cookieSales, 0)
+    }
 }
-
-// TODO: write recursiveMax(int[] arr, int index) — think about what the base case should return
-
-int[] cookieSales = {42, 58, 39, 71, 64, 80, 55};
-System.out.println("Recursive total: " + recursiveSum(cookieSales, 0));
-// TODO: call and print recursiveMax(cookieSales, 0)
 {% endcapture %}
 
 {% include runners/code.html

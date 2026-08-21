@@ -38,11 +38,12 @@ public class Calculator {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
     }
-}
 
-// --- Try it ---
-Calculator calc = new Calculator(10, 4);
-System.out.println("Calculator created!");
+    public static void main(String[] args) {
+        Calculator calc = new Calculator(10, 4);
+        System.out.println("Calculator created!");
+    }
+}
 ```
 
 {% capture challenge_class %}
@@ -60,11 +61,13 @@ public class Calculator {
     }
 
     // TODO: add a getFirstNumber() method that returns firstNumber
-}
 
-Calculator calc = new Calculator(10, 4);
-System.out.println("Calculator created!");
-// TODO: print calc.getFirstNumber()
+    public static void main(String[] args) {
+        Calculator calc = new Calculator(10, 4);
+        System.out.println("Calculator created!");
+        // TODO: print calc.getFirstNumber()
+    }
+}
 {% endcapture %}
 
 {% include runners/code.html
@@ -144,10 +147,12 @@ public class Calculator {
     // TODO: multiply()
     // TODO: divide()
     // TODO: power() using Math.pow
-}
 
-Calculator calc = new Calculator(10, 4);
-System.out.println("10 + 4 = " + calc.add());
+    public static void main(String[] args) {
+        Calculator calc = new Calculator(10, 4);
+        System.out.println("10 + 4 = " + calc.add());
+    }
+}
 {% endcapture %}
 
 {% include runners/code.html
@@ -183,14 +188,16 @@ public class Calculator {
     public String summary() {
         return String.format("%.1f + %.1f = %.1f", firstNumber, secondNumber, add());
     }
-}
 
-Calculator calc = new Calculator(10, 4);
-System.out.println(calc.summary());
-System.out.println("Difference: " + calc.subtract());
-System.out.println("Product: " + calc.multiply());
-System.out.println("Quotient: " + calc.divide());
-System.out.println("Power: " + calc.power());
+    public static void main(String[] args) {
+        Calculator calc = new Calculator(10, 4);
+        System.out.println(calc.summary());
+        System.out.println("Difference: " + calc.subtract());
+        System.out.println("Product: " + calc.multiply());
+        System.out.println("Quotient: " + calc.divide());
+        System.out.println("Power: " + calc.power());
+    }
+}
 ```
 
 {% capture challenge_main %}
@@ -218,14 +225,16 @@ public class Calculator {
     }
 
     // TODO: add a remainder() method using %
-}
 
-Calculator calc = new Calculator(10, 4);
-System.out.println(calc.summary());
-System.out.println("Difference: " + calc.subtract());
-System.out.println("Product: " + calc.multiply());
-System.out.println("Quotient: " + calc.divide());
-System.out.println("Power: " + calc.power());
+    public static void main(String[] args) {
+        Calculator calc = new Calculator(10, 4);
+        System.out.println(calc.summary());
+        System.out.println("Difference: " + calc.subtract());
+        System.out.println("Product: " + calc.multiply());
+        System.out.println("Quotient: " + calc.divide());
+        System.out.println("Power: " + calc.power());
+    }
+}
 {% endcapture %}
 
 {% include runners/code.html
