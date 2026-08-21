@@ -72,11 +72,11 @@
     <!-- All Topics Cards Grid (Full List) -->
     <div class="mb-8">
       <h2 class="text-2xl font-semibold text-white mb-6">All Available Hacks</h2>
-      <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 items-stretch">
         {% for topic in page.lxdData.Topics %}
-          <div class="bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-2" data-game="{{ topic.Game }}">
-            <div class="relative h-40 overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900 mb-4">
-              <a href="{{ topic.Game }}" class="block w-full h-full group">
+          <div class="h-full flex flex-col bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-2" data-game="{{ topic.Game }}">
+            <div class="relative h-40 shrink-0 overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900">
+              <a href="{{ topic.Game | default: topic.Lessons }}" class="block w-full h-full group">
                 <img src="{{ topic.Image }}" alt="{{ topic.Alt }}" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
                 <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div class="bg-white bg-opacity-90 rounded-full p-3">
@@ -85,14 +85,14 @@
                 </div>
               </a>
             </div>
-            <div class="p-6">
-              <div class="flex items-start justify-between mb-2">
-                <h3 class="text-xl font-bold text-white">{{ topic.Title }}</h3>
-                <span class="inline-block px-2 py-1 text-xs rounded-full bg-gray-700 text-gray-300" data-status-badge>Not selected</span>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="flex items-start justify-between gap-2 mb-2 min-h-[3.5rem]">
+                <h3 class="text-xl font-bold text-white line-clamp-2">{{ topic.Title }}</h3>
+                <span class="inline-block px-2 py-1 text-xs rounded-full bg-gray-700 text-gray-300 shrink-0" data-status-badge>Not selected</span>
               </div>
               <p class="text-sm text-gray-400 mb-2">{{ topic.Genre }} | Level: {{ topic.Level }}</p>
-              <p class="text-gray-300 text-sm mb-4">{{ topic.Description }}</p>
-              <div class="mb-4">
+              <p class="text-gray-300 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">{{ topic.Description }}</p>
+              <div class="mb-4 min-h-[3.25rem] overflow-hidden">
                 <span class="text-sm font-semibold text-gray-200">Categories:</span>
                 <div class="flex flex-wrap gap-1 mt-1">
                   {% for cat in topic.Categories %}
@@ -100,9 +100,13 @@
                   {% endfor %}
                 </div>
               </div>
-              <div class="flex gap-2">
-                <a href="{{ topic.Game }}" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-center py-2 rounded-lg font-semibold transition">Play Game</a>
-                <a href="{{ topic.Lessons }}" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-center py-2 rounded-lg font-semibold transition">Lessons</a>
+              <div class="flex gap-2 mt-auto">
+                {% if topic.Game %}
+                  <a href="{{ topic.Game }}" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-center py-2 rounded-lg font-semibold transition">Play Game</a>
+                  <a href="{{ topic.Lessons }}" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-center py-2 rounded-lg font-semibold transition">Lessons</a>
+                {% else %}
+                  <a href="{{ topic.Lessons }}" class="w-full bg-purple-600 hover:bg-purple-500 text-white text-center py-2 rounded-lg font-semibold transition">Lessons</a>
+                {% endif %}
               </div>
             </div>
           </div>
