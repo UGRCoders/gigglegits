@@ -15,7 +15,7 @@ lxdData:
     - Title: "Using Objects and Methods"
       Description: "Learn about variables, data types, and class methods through interactive coding challenges like building a calculator."
       Categories: ["Algorithms", "Variables", "Expressions", "InputOutput", "Casting", "Operators", "APILibraries", "Comments", "Methods", "MathClass", "Objects", "Instantiation", "StringMethods"]
-      Lessons: "/calculator/lesson"
+      Lessons: "/csa/calculator-lesson"
       Image: "/images/classroomcsa/unit1.png"
       Alt: "Unit 1 Image"
       Level: 1
@@ -23,7 +23,7 @@ lxdData:
     - Title: "Selection and Iteration"
       Description: "Experiment with logic, conditionals, and loops to develop games like Rock Paper Scissors."
       Categories: ["Selection", "Booleans", "IfStatements", "Loops", "Iteration", "StringAlgorithms", "NestedLoops", "RunTime"]
-      Lessons: "/rock_paper_scissors/lessons"
+      Lessons: "/csa/rock-paper-scissors-lesson"
       Image: "/images/classroomcsa/unit2.png"
       Alt: "Unit 2 Image"
       Level: 2
@@ -31,7 +31,7 @@ lxdData:
     - Title: "Class Creation"
       Description: "Understand abstraction, program design, and object-oriented structures by creating your own classes in a Tic Tac Toe project."
       Categories: ["Abstraction", "ProgramDesign", "Classes", "Constructors", "MethodsWriting", "References", "ClassVariables", "Scope", "ThisKeyword"]
-      Lessons: "/games/tictactoe/lesson"
+      Lessons: "/csa/tictactoe-lesson"
       Image: "/images/classroomcsa/unit3.png"
       Alt: "Unit 3 Image"
       Level: 3
@@ -39,7 +39,7 @@ lxdData:
     - Title: "Data Collections"
       Description: "Explore data structures and algorithms including arrays, ArrayLists, and recursion through interactive coding projects."
       Categories: ["Ethics", "DataSets", "Arrays", "ArrayTraversals", "ArrayAlgorithms", "TextFiles", "WrapperClasses", "ArrayLists", "ArrayListTraversals", "ArrayListAlgorithms", "TwoDArrays", "TwoDTraversals", "TwoDAlgorithms", "Searching", "Sorting", "Recursion"]
-      Lessons: "/cookie-lessons"
+      Lessons: "/csa/data-collections-lesson"
       Image: "/images/classroomcsa/unit4.png"
       Alt: "Unit 4 Image"
       Level: 4
