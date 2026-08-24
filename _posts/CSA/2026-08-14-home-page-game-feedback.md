@@ -9,6 +9,12 @@ description: >
   link as your assignment.
 author: Open Coding Society
 permalink: /csa/home-page-game-feedback
+summary: >
+  This is a Week 0 onboarding assignment, not a coding lesson. You play the
+  CS Pathway interactive experience, take structured notes on bugs, UX
+  friction, and feature ideas as you go, then open a GitHub Issue in your
+  own repository documenting that feedback and submit its URL as your
+  deliverable.
 ---
 
 ## Week 0: Onboarding & Readiness — Home Page Game Feedback

@@ -127,5 +127,5 @@ minima:
     - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
   nav_pages:
     - navigation/blog.md
-    - navigation/courses.md
+    - navigation/course.md
     - navigation/search.md

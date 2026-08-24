@@ -6,6 +6,21 @@ title: Postman Guide
 description: Quick Guide to Write & Test APIs with Postman
 permalink: /postman
 author: Anusha Khobare
+quiz:
+  - q: "You send a POST request that successfully creates a new resource on the server. What status code should you expect?"
+    choices:
+      - "200 OK"
+      - "201 Created"
+      - "204 No Content"
+      - "404 Not Found"
+    answer: 1
+  - q: "Why is Postman useful for testing a Flask or Spring backend before the frontend is built?"
+    choices:
+      - "It lets you send requests directly to API endpoints and inspect responses without needing a working UI"
+      - "It automatically writes your backend code for you"
+      - "It replaces the need for a database"
+      - "It only works once the frontend is complete"
+    answer: 0
 ---
 
 <style>
