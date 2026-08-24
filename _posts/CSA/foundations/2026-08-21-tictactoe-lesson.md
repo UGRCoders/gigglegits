@@ -6,6 +6,28 @@ toc: True
 codemirror: True
 courses: {'csa': {'week': 3}}
 permalink: /csa/tictactoe-lesson
+quiz:
+  - q: "Inside the constructor, what does this.cells refer to versus a plain cells parameter of the same name?"
+    choices:
+      - "They always mean the exact same thing"
+      - "this.cells is the object's field, while plain cells refers to the closer, local parameter"
+      - "this.cells is a typo and would not compile"
+      - "plain cells always wins and this.cells is ignored"
+    answer: 1
+  - q: "You pass a TicTacToeBoard into a method that calls board.markCell(0, 'X'). Does the original board show the mark after the method returns?"
+    choices:
+      - "No, Java copies the whole object into the method"
+      - "Yes, because the method received a reference to the same object in memory"
+      - "Only if markCell is declared static"
+      - "Only if cells is declared public"
+    answer: 1
+  - q: "Why is boardsCreated declared static in the TicTacToeBoard class?"
+    choices:
+      - "So each board object gets its own separate copy of the counter"
+      - "static fields run faster than instance fields"
+      - "So there is exactly one shared copy of the counter across every TicTacToeBoard instance"
+      - "static is required for any int field"
+    answer: 2
 ---
 
 ## Designing a Tic-Tac-Toe Board Class

@@ -6,6 +6,28 @@ toc: True
 codemirror: True
 courses: {'csa': {'week': 4}}
 permalink: /csa/data-collections-lesson
+quiz:
+  - q: "Why does ArrayList<Integer> compile but ArrayList<int> does not?"
+    choices:
+      - "int is misspelled, Java expects Int"
+      - "ArrayList can only hold String values"
+      - "Generic types require an object type, and int is a primitive rather than an object"
+      - "There is no real difference between them"
+    answer: 2
+  - q: "Why does cookieSales need to be sorted before calling Arrays.binarySearch on it?"
+    choices:
+      - "binarySearch automatically sorts the array first, so it does not matter"
+      - "Sorting is only required for linear search, not binary search"
+      - "Binary search repeatedly halves a sorted range, so it can give wrong results on unsorted data"
+      - "Arrays.binarySearch only works on 2D arrays"
+    answer: 2
+  - q: "In recursiveSum(int[] arr, int index), what actually stops the recursive calls?"
+    choices:
+      - "A for loop counter reaching arr.length"
+      - "The base case: when index == arr.length, the method returns 0 instead of calling itself again"
+      - "Java automatically caps recursion depth at the array length"
+      - "The array must be sorted first"
+    answer: 1
 ---
 
 ## Data Collections: Arrays, ArrayLists & Recursion

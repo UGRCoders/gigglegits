@@ -1,0 +1,143 @@
+{% comment %}
+  Renders a 3-question check-your-understanding activity from page.quiz front matter:
+  quiz:
+    - q: "Question text"
+      choices: ["A", "B", "C", "D"]
+      answer: 0
+      explain: "Why this is correct"
+{% endcomment %}
+{% if page.quiz %}
+<div class="lesson-quiz">
+  <div class="lesson-quiz__header">
+    <h3>Check Your Understanding</h3>
+    <p>Answer these before moving on.</p>
+  </div>
+  <div class="lesson-quiz__list">
+    {% for item in page.quiz %}
+    <div class="lesson-quiz__item" data-answer="{{ item.answer }}">
+      <p class="lesson-quiz__question">{{ forloop.index }}. {{ item.q }}</p>
+      <div class="lesson-quiz__choices">
+        {% for choice in item.choices %}
+        <button type="button" class="lesson-quiz__choice" data-index="{{ forloop.index0 }}">{{ choice }}</button>
+        {% endfor %}
+      </div>
+      <p class="lesson-quiz__feedback"></p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .lesson-quiz {
+    margin-top: 40px;
+    padding: 22px 24px 26px;
+    border: 1px solid var(--ui-border);
+    border-radius: 14px;
+    background: var(--panel-mid);
+  }
+
+  .lesson-quiz__header h3 {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--pref-text-color);
+  }
+
+  .lesson-quiz__header p {
+    margin: 0 0 20px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .lesson-quiz__item {
+    padding: 16px 0;
+    border-top: 1px solid var(--ui-border);
+  }
+
+  .lesson-quiz__item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .lesson-quiz__question {
+    margin: 0 0 12px;
+    font-weight: 600;
+    color: var(--pref-text-color);
+  }
+
+  .lesson-quiz__choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lesson-quiz__choice {
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid var(--ui-border);
+    border-radius: 8px;
+    background: var(--pref-bg-color);
+    color: var(--pref-text-color);
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .lesson-quiz__choice:hover {
+    border-color: var(--pref-accent-color);
+  }
+
+  .lesson-quiz__choice.is-correct {
+    border-color: #2e9e5b;
+    background: rgba(46, 158, 91, 0.15);
+  }
+
+  .lesson-quiz__choice.is-incorrect {
+    border-color: #d1483f;
+    background: rgba(209, 72, 63, 0.15);
+  }
+
+  .lesson-quiz__choice:disabled {
+    cursor: default;
+  }
+
+  .lesson-quiz__feedback {
+    margin: 10px 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-height: 1.2em;
+  }
+
+  .lesson-quiz__feedback.is-correct {
+    color: #2e9e5b;
+  }
+
+  .lesson-quiz__feedback.is-incorrect {
+    color: #d1483f;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.lesson-quiz__item').forEach(function (item) {
+    var correctIndex = parseInt(item.dataset.answer, 10);
+    var feedback = item.querySelector('.lesson-quiz__feedback');
+    var choices = item.querySelectorAll('.lesson-quiz__choice');
+
+    choices.forEach(function (choice) {
+      choice.addEventListener('click', function () {
+        var chosenIndex = parseInt(choice.dataset.index, 10);
+        var isCorrect = chosenIndex === correctIndex;
+
+        choices.forEach(function (c) { c.disabled = true; });
+        choice.classList.add(isCorrect ? 'is-correct' : 'is-incorrect');
+        if (!isCorrect) {
+          choices[correctIndex].classList.add('is-correct');
+        }
+
+        feedback.textContent = isCorrect ? 'Correct!' : 'Not quite — the highlighted answer is correct.';
+        feedback.classList.add(isCorrect ? 'is-correct' : 'is-incorrect');
+      });
+    });
+  });
+</script>
+{% endif %}

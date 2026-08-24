@@ -8,6 +8,28 @@ permalink: /fullstack/java/intro
 toc: True
 comments: True
 author: Finn Carpenter
+quiz:
+  - q: "According to this lesson, what are the four components of a full stack feature?"
+    choices:
+      - "Frontend, backend, database, and API"
+      - "HTML, CSS, JavaScript, and JSON"
+      - "Controller, service, repository, and model"
+      - "Client, server, cache, and proxy"
+    answer: 0
+  - q: "Per the Framework section, what two questions should you be able to answer before building a feature?"
+    choices:
+      - "What data needs to be stored, and what endpoints are needed"
+      - "What color scheme to use, and what font to use"
+      - "How many users will use it, and what browser support is needed"
+      - "What database vendor to use, and what cloud provider to use"
+    answer: 0
+  - q: "In the author's announcement API example, besides standard CRUD, what kind of additional endpoint is suggested?"
+    choices:
+      - "A fetch endpoint by author or by tag"
+      - "An endpoint to delete the entire database"
+      - "A login endpoint only"
+      - "A payment processing endpoint"
+    answer: 0
 ---
 
 ## Introduction

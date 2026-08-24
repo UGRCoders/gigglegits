@@ -6,6 +6,28 @@ toc: True
 codemirror: True
 courses: {'csa': {'week': 2}}
 permalink: /csa/rock-paper-scissors-lesson
+quiz:
+  - q: "Why does the code use player.equals(computer) instead of player == computer?"
+    choices:
+      - "== compares object references, so two Strings with identical characters can still compare unequal"
+      - "== only works with numbers, never with objects"
+      - ".equals() runs faster than =="
+      - "There is no real difference for Strings"
+    answer: 0
+  - q: "What actually causes the Step 2 while loop to stop running?"
+    choices:
+      - "It always runs exactly 3 times"
+      - "playerWins < 2 && computerWins < 2 becomes false because one side reached 2 wins"
+      - "The round variable hits a hardcoded limit of 100"
+      - "System.out.println signals the loop to stop"
+    answer: 1
+  - q: "In Step 3, if there are 4 players and roundsPerPlayer is 5, how many total Round played lines print?"
+    choices:
+      - "9, since 4 + 5 = 9"
+      - "5, since only the inner loop matters"
+      - "20, since the outer loop runs the inner loop 4 times, 5 iterations each"
+      - "It cannot be determined without running the program"
+    answer: 2
 ---
 
 ## Rock Paper Scissors: Selection & Iteration

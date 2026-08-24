@@ -6,6 +6,28 @@ toc: True
 codemirror: True
 courses: {'csa': {'week': 1}}
 permalink: /csa/calculator-lesson
+quiz:
+  - q: "What does the `new Calculator(10, 4)` call actually do?"
+    choices:
+      - "Instantiates a Calculator object and runs its constructor"
+      - "Declares a variable named Calculator"
+      - "Calls the add() method with 10 and 4"
+      - "Imports the Calculator class"
+    answer: 0
+  - q: "firstNumber and secondNumber are declared as double. Why does that matter for divide()?"
+    choices:
+      - "It doesn't matter — Java always does decimal division"
+      - "double operands make division return a decimal result instead of truncating like int division would"
+      - "It makes the method run faster"
+      - "It's required for the method to compile"
+    answer: 1
+  - q: "What's the safest fix for divide() silently returning Infinity or NaN when secondNumber is 0?"
+    choices:
+      - "Change secondNumber to an int"
+      - "Use Math.pow instead of dividing"
+      - "Throw an ArithmeticException when secondNumber == 0 before dividing"
+      - "Wrap the call in a try/catch that ignores the error"
+    answer: 2
 ---
 
 ## Building a Calculator in Java

@@ -7,6 +7,28 @@ permalink: /java/spring/anatomy
 menu: nav/java_spring.html
 courses: {'csa': {'week': 2}}
 type: coding 
+quiz:
+  - q: "What is the purpose of the pom.xml file in a Spring Boot Maven project?"
+    choices:
+      - "It defines the project configuration, dependencies, and build settings"
+      - "It stores the application's database records"
+      - "It contains the HTML templates for the frontend"
+      - "It configures Docker container networking only"
+    answer: 0
+  - q: "Which annotation marks the main entry point class of a Spring Boot application, as shown in Main.java?"
+    choices:
+      - "@SpringBootApplication"
+      - "@RestController"
+      - "@Service"
+      - "@Entity"
+    answer: 0
+  - q: "In PersonApiController, what HTTP status does getPerson return when the requested ID is not found?"
+    choices:
+      - "HttpStatus.BAD_REQUEST"
+      - "HttpStatus.OK"
+      - "HttpStatus.NOT_FOUND"
+      - "HttpStatus.CREATED"
+    answer: 0
 ---
 
 ## Highlights of a Spring Web Application
