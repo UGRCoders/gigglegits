@@ -1,0 +1,78 @@
+---
+permalink: /csa/activities/unit_01/1_1
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Recipe Remix</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_1' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Recipe Remix</h2>
+<p style="margin:.4em 0 1em;">Algorithms are ordered steps — drag these ramen-making steps into the correct order!</p>
+
+<style>
+.step{background:#161b22;border:2px solid #30363d;border-radius:6px;
+padding:10px 14px;margin:5px 0;cursor:grab;user-select:none;}
+.step.over{border-color:#1a73e8;background:#1c2a3a;}
+.step.dragging{opacity:.25;}
+#msg{margin-top:14px;font-size:1.05rem;min-height:1.4em;}
+</style>
+<div id='list'></div><br>
+<button class='btn' onclick='check()'>&#10003; Check Order</button>
+<button class='btn' style='background:#444' onclick='init()'>&#128256; Reshuffle</button>
+<div id='msg'></div>
+<script>
+var steps=['Fill pot with water','Place pot on stove and heat',
+'Wait for water to fully boil','Add ramen noodles to boiling water',
+'Cook noodles for 3 minutes','Drain most of the water',
+'Add flavor packet and stir well','Let cool and enjoy!'];
+var CORRECT=[0,1,2,3,4,5,6,7];
+var order=[];var dragged=null;
+var list=document.getElementById('list');
+var msg=document.getElementById('msg');
+function render(){
+  list.innerHTML='';
+  order.forEach(function(si,pos){
+    var d=document.createElement('div');
+    d.className='step';d.draggable=true;
+    d.textContent=(pos+1)+'. '+steps[si];
+    d.dataset.pos=pos;
+    d.addEventListener('dragstart',function(){dragged=pos;d.classList.add('dragging');});
+    d.addEventListener('dragend',function(){d.classList.remove('dragging');});
+    d.addEventListener('dragover',function(e){e.preventDefault();d.classList.add('over');});
+    d.addEventListener('dragleave',function(){d.classList.remove('over');});
+    d.addEventListener('drop',function(e){
+      e.preventDefault();d.classList.remove('over');
+      var to=+d.dataset.pos;
+      var tmp=order[dragged];order[dragged]=order[to];order[to]=tmp;
+      render();
+    });
+    list.appendChild(d);
+  });
+}
+function check(){
+  if(JSON.stringify(order)===JSON.stringify(CORRECT)){
+    msg.style.color='#4caf50';msg.innerHTML='&#128077; Perfect algorithm! Ramen is served! &#127836;';return;
+  }
+  var bads=[[3,1,"Adding noodles before the water even boils!"],[7,2,"You tried to eat before cooking the noodles!"],
+    [6,1,"Adding flavor packet before you have water?!"],[4,2,"Can't cook before the water boils!"]];
+  msg.style.color='#f44336';
+  for(var i=0;i<bads.length;i++){
+    if(order.indexOf(bads[i][0])<order.indexOf(bads[i][1])){msg.textContent='&#10060; '+bads[i][2];return;}
+  }
+  msg.textContent='&#10060; The order isn't quite right — try again!';
+}
+function init(){order=[0,1,2,3,4,5,6,7].sort(function(){return Math.random()-.5;});msg.textContent='';render();}
+init();
+</script>
+</body>
+</html>

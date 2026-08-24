@@ -1,0 +1,76 @@
+---
+permalink: /csa/activities/unit_01/1_7
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>API Toolbox</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_7' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; API Toolbox</h2>
+<p style="margin:.4em 0 1em;">APIs expose ready-made methods — click the right Math or String API for each mission!</p>
+
+<style>
+#mission{background:#161b22;border-radius:8px;padding:16px;font-size:1.1rem;margin-bottom:14px;}
+.api{display:inline-block;background:#1f2937;border:2px solid #374151;border-radius:6px;
+padding:8px 12px;cursor:pointer;font-family:monospace;font-size:.9rem;margin:4px;}
+.api:hover{border-color:#1a73e8;}
+#feedback{margin-top:12px;font-size:1rem;min-height:1.5em;}
+#prog{margin-bottom:8px;}
+</style>
+<div id='prog'>Mission 1 / 8</div>
+<div id='mission'></div>
+<div id='apis'>
+<span class='api' onclick='pick(0)'>Math.random()</span>
+<span class='api' onclick='pick(1)'>Math.abs(x)</span>
+<span class='api' onclick='pick(2)'>Math.pow(x,y)</span>
+<span class='api' onclick='pick(3)'>String.length()</span>
+<span class='api' onclick='pick(4)'>String.toUpperCase()</span>
+<span class='api' onclick='pick(5)'>Math.max(a,b)</span>
+</div>
+<div id='feedback'></div>
+<script>
+var missions=[
+  {txt:'Generate a random decimal number between 0 and 1.',ans:0},
+  {txt:'Find the absolute value of -42.',ans:1},
+  {txt:'Raise 2 to the power of 10 (2^10).',ans:2},
+  {txt:'Get the number of characters in the String "Hello, World!".',ans:3},
+  {txt:'Convert the string "java" to all uppercase letters.',ans:4},
+  {txt:'Find the larger number between 15 and 9.',ans:5},
+  {txt:'Find the absolute value of -7.5.',ans:1},
+  {txt:'Get the length of the String "algorithms".',ans:3}
+];
+var names=['Math.random()','Math.abs(x)','Math.pow(x,y)','String.length()','String.toUpperCase()','Math.max(a,b)'];
+var m=0,score=0,waiting=false;
+var mEl=document.getElementById('mission');
+var fb=document.getElementById('feedback');
+var pr=document.getElementById('prog');
+function show(){mEl.textContent=missions[m].txt;waiting=false;}
+function pick(i){
+  if(waiting)return;waiting=true;
+  if(i===missions[m].ans){
+    score++;fb.style.color='#4caf50';fb.textContent='&#10003; Correct! '+names[i]+' is the right tool.';
+  } else {
+    fb.style.color='#f44336';fb.textContent='&#10060; Not quite. The right API is '+names[missions[m].ans]+'.';
+  }
+  m++;
+  if(m>=missions.length){
+    setTimeout(function(){mEl.textContent='All missions complete!';
+      fb.style.color='#4caf50';fb.textContent='Score: '+score+' / 8';pr.textContent='Done!';},1200);
+  } else {
+    setTimeout(function(){pr.textContent='Mission '+(m+1)+' / 8';fb.textContent='';show();},1300);
+  }
+}
+show();
+</script>
+</body>
+</html>

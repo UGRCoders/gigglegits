@@ -1,0 +1,103 @@
+---
+permalink: /csa/activities/unit_01/1_12
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Blueprint Builder</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_12' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Blueprint Builder</h2>
+<p style="margin:.4em 0 1em;">A class is a blueprint — sort the Dog class components into Fields and Methods, then instantiate an object!</p>
+
+<style>
+.comp{display:inline-block;background:#1f2937;border:2px solid #374151;border-radius:6px;
+padding:7px 12px;margin:4px;cursor:pointer;font-family:monospace;font-size:.85rem;}
+.comp:hover{border-color:#1a73e8;}
+.comp.placed{opacity:.3;cursor:default;}
+.zone{background:#161b22;border:2px dashed #374151;border-radius:8px;
+padding:10px 14px;min-height:80px;margin:8px 0;cursor:pointer;}
+.zone:hover{border-color:#1a73e8;}
+.zone-item{font-family:monospace;font-size:.85rem;color:#90caf9;margin:3px 0;}
+#msg{font-size:1rem;margin-top:10px;min-height:1.4em;}
+#obj{background:#0d2a14;border:2px solid #4caf50;border-radius:8px;padding:12px;
+font-family:monospace;display:none;margin-top:10px;}
+</style>
+<p style='margin:0 0 8px'><strong>Components</strong> (click a component, then click a zone):</p>
+<div id='comps'></div>
+<div style='display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;'>
+<div style='flex:1;min-width:180px;'>
+<strong>Fields</strong>
+<div class='zone' id='zFields' onclick='dropTo("Fields")'></div>
+</div>
+<div style='flex:1;min-width:180px;'>
+<strong>Methods</strong>
+<div class='zone' id='zMethods' onclick='dropTo("Methods")'></div>
+</div>
+</div>
+<button class='btn' onclick='checkBlueprint()' style='margin-top:8px;'>&#10003; Check Blueprint</button>
+<div id='msg'></div>
+<div id='obj'></div>
+<script>
+var comps=[
+  {txt:'String name',zone:'Fields'},{txt:'int age',zone:'Fields'},
+  {txt:'String breed',zone:'Fields'},{txt:'boolean vaccinated',zone:'Fields'},
+  {txt:'void bark()',zone:'Methods'},{txt:'String getName()',zone:'Methods'},
+  {txt:'void setAge(int a)',zone:'Methods'},{txt:'String getBreed()',zone:'Methods'}
+];
+var placed={};var selected=null;
+var cdiv=document.getElementById('comps');
+comps.forEach(function(c,i){
+  var el=document.createElement('span');el.className='comp';el.textContent=c.txt;el.dataset.i=i;
+  el.onclick=function(){
+    if(el.classList.contains('placed'))return;
+    document.querySelectorAll('.comp').forEach(function(x){x.style.outline='';});
+    selected=i;el.style.outline='2px solid #1a73e8';
+  };
+  cdiv.appendChild(el);
+});
+function dropTo(zone){
+  if(selected===null)return;
+  placed[selected]=zone;
+  var el=cdiv.querySelector('[data-i="'+selected+'"]');
+  el.classList.add('placed');el.style.outline='';
+  var zEl=document.getElementById('z'+zone);
+  var item=document.createElement('div');item.className='zone-item';item.textContent=comps[selected].txt;
+  zEl.appendChild(item);
+  selected=null;
+}
+function checkBlueprint(){
+  var msg=document.getElementById('msg');var ok=true;
+  Object.keys(placed).forEach(function(i){
+    if(placed[i]!==comps[i].zone)ok=false;
+  });
+  if(Object.keys(placed).length<comps.length){msg.style.color='#f44336';msg.textContent='&#10060; Place all components first!';return;}
+  if(!ok){msg.style.color='#f44336';msg.textContent='&#10060; Some components are in the wrong section!';return;}
+  msg.style.color='#4caf50';msg.textContent='&#127881; Blueprint correct! Now instantiate your Dog:';
+  var obj=document.getElementById('obj');
+  obj.style.display='block';
+  obj.innerHTML='<strong>Dog myDog = new Dog();</strong><br>'
+    +'name: <input id="iname" placeholder="e.g. Buddy" style="background:#161b22;color:#e0e0e0;border:1px solid #374151;border-radius:4px;padding:4px;width:120px;"> '
+    +'age: <input id="iage" placeholder="e.g. 3" style="background:#161b22;color:#e0e0e0;border:1px solid #374151;border-radius:4px;padding:4px;width:60px;"> '
+    +'breed: <input id="ibreed" placeholder="e.g. Labrador" style="background:#161b22;color:#e0e0e0;border:1px solid #374151;border-radius:4px;padding:4px;width:120px;"> '
+    +'<button class="btn" style="margin-left:6px;" onclick="instantiate()">Instantiate!</button>'
+    +'<div id="inst"></div>';
+}
+function instantiate(){
+  var n=document.getElementById('iname').value||'?';
+  var a=document.getElementById('iage').value||'?';
+  var b=document.getElementById('ibreed').value||'?';
+  document.getElementById('inst').innerHTML='<br>&#128054; <strong>myDog</strong> = { name:"'+n+'", age:'+a+', breed:"'+b+'" }<br><em>Class = blueprint. Object = instance.</em>';
+}
+</script>
+</body>
+</html>

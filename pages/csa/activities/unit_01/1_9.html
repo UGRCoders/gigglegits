@@ -1,0 +1,98 @@
+---
+permalink: /csa/activities/unit_01/1_9
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Signature Scanner</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_9' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Signature Scanner</h2>
+<p style="margin:.4em 0 1em;">Method signatures define the contract — match each method call to its correct signature!</p>
+
+<style>
+.card{background:#1f2937;border:2px solid #374151;border-radius:8px;
+padding:10px 14px;margin:5px;cursor:pointer;font-family:monospace;font-size:.88rem;}
+.card:hover{border-color:#1a73e8;}
+.card.selected{border-color:#1a73e8;background:#1c2a3a;}
+.card.correct{border-color:#4caf50;background:#0d2a14;}
+.card.wrong{border-color:#f44336;background:#2a0d0d;}
+.col{display:inline-block;vertical-align:top;width:47%;margin:0 1%;}
+#msg{margin-top:12px;font-size:1rem;min-height:1.4em;}
+#score{margin-bottom:8px;font-size:1.05rem;}
+</style>
+<div id='score'>Matched: 0 / 5</div>
+<div>
+<div class='col'><strong>Signatures</strong>
+<div class='card' id='sig0' onclick='selSig(0)'>public int add(int a, int b)</div>
+<div class='card' id='sig1' onclick='selSig(1)'>public String greet(String name)</div>
+<div class='card' id='sig2' onclick='selSig(2)'>public double area(double r)</div>
+<div class='card' id='sig3' onclick='selSig(3)'>public boolean isEven(int n)</div>
+<div class='card' id='sig4' onclick='selSig(4)'>public void print(String msg)</div>
+</div>
+<div class='col'><strong>Method Calls</strong>
+<div class='card' id='call0' onclick='selCall(0)'>add(5, 3)</div>
+<div class='card' id='call1' onclick='selCall(1)'>print("Hello")</div>
+<div class='card' id='call2' onclick='selCall(2)'>area(2.5)</div>
+<div class='card' id='call3' onclick='selCall(3)'>greet("Alice")</div>
+<div class='card' id='call4' onclick='selCall(4)'>isEven(4)</div>
+</div>
+</div>
+<div id='msg'></div>
+<script>
+var callToSig=[0,4,2,1,3];
+var selS=null,selC=null,matched=0,done=[];
+function selSig(i){
+  if(done.indexOf(i)>-1)return;
+  selS=i;highlight();tryMatch();
+}
+function selCall(i){
+  if(done.indexOf(callToSig.indexOf(i))>-1&&done.indexOf(i)>-1)return;
+  selC=i;highlight();tryMatch();
+}
+function highlight(){
+  for(var i=0;i<5;i++){
+    if(done.indexOf(i)>-1)continue;
+    document.getElementById('sig'+i).classList.toggle('selected',i===selS);
+  }
+  for(var i=0;i<5;i++){
+    var sigIdx=callToSig.indexOf(i);
+    if(done.indexOf(sigIdx)>-1)continue;
+    document.getElementById('call'+i).classList.toggle('selected',i===selC);
+  }
+}
+function tryMatch(){
+  if(selS===null||selC===null)return;
+  var msg=document.getElementById('msg');
+  if(callToSig[selC]===selS){
+    document.getElementById('sig'+selS).className='card correct';
+    document.getElementById('call'+selC).className='card correct';
+    done.push(selS);matched++;
+    document.getElementById('score').textContent='Matched: '+matched+' / 5';
+    if(matched===5){msg.style.color='#4caf50';msg.textContent='&#127881; All signatures matched! You read method contracts like a pro.';}
+    else{msg.style.color='#4caf50';msg.textContent='&#10003; Match!';}
+  } else {
+    document.getElementById('sig'+selS).className='card wrong';
+    document.getElementById('call'+selC).className='card wrong';
+    msg.style.color='#f44336';msg.textContent='&#10060; Not a match — check the parameter types!';
+    setTimeout(function(){
+      if(done.indexOf(selS)===-1)document.getElementById('sig'+selS).className='card';
+      var csi=callToSig.indexOf(selC);
+      if(done.indexOf(csi)===-1)document.getElementById('call'+selC).className='card';
+      msg.textContent='';
+    },900);
+  }
+  selS=null;selC=null;
+}
+</script>
+</body>
+</html>

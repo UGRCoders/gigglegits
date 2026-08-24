@@ -1,0 +1,104 @@
+---
+permalink: /csa/activities/unit_01/1_14
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Method Caller</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_14' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Method Caller</h2>
+<p style="margin:.4em 0 1em;">Instance methods are called on specific objects — select the correct object, then the correct method!</p>
+
+<style>
+.dog-card{display:inline-block;background:#1f2937;border:2px solid #374151;
+border-radius:8px;padding:12px;margin:6px;cursor:pointer;text-align:center;min-width:130px;vertical-align:top;}
+.dog-card:hover{border-color:#1a73e8;}
+.dog-card.selected{border-color:#1a73e8;background:#1c2a3a;}
+.dog-card.correct{border-color:#4caf50;background:#0d2a14;}
+.meth{background:#1f2937;border:2px solid #374151;border-radius:6px;padding:7px 12px;
+cursor:pointer;font-family:monospace;font-size:.85rem;margin:4px;}
+.meth:hover{border-color:#1a73e8;}
+#task{background:#161b22;border-radius:8px;padding:14px;font-size:1.05rem;margin-bottom:12px;}
+#feedback{margin-top:10px;font-size:1rem;min-height:1.5em;}
+#prog{margin-bottom:8px;}
+</style>
+<div id='prog'>Task 1 / 8</div>
+<div id='task'></div>
+<div id='dogs'></div>
+<div style='margin-top:10px;'>
+<button class='meth' onclick='pickMeth("getName")'>getName()</button>
+<button class='meth' onclick='pickMeth("getAge")'>getAge()</button>
+<button class='meth' onclick='pickMeth("getBreed")'>getBreed()</button>
+<button class='meth' onclick='pickMeth("bark")'>bark()</button>
+</div>
+<div id='feedback'></div>
+<script>
+var dogs=[
+  {id:0,name:'Max',age:3,breed:'Labrador'},
+  {id:1,name:'Bella',age:7,breed:'Poodle'},
+  {id:2,name:'Rex',age:1,breed:'German Shepherd'}
+];
+var tasks=[
+  {txt:'Make the oldest dog bark.',dog:1,meth:'bark',result:'Bella says: Woof!'},
+  {txt:'Get the name of dog1 (Max).',dog:0,meth:'getName',result:'"Max"'},
+  {txt:'Get the breed of dog3 (Rex).',dog:2,meth:'getBreed',result:'"German Shepherd"'},
+  {txt:'What is dog2 (Bella)'s age?',dog:1,meth:'getAge',result:'7'},
+  {txt:'Make the youngest dog bark.',dog:2,meth:'bark',result:'Rex says: Woof!'},
+  {txt:'Get dog2 (Bella)'s breed.',dog:1,meth:'getBreed',result:'"Poodle"'},
+  {txt:'What is dog3 (Rex)'s name?',dog:2,meth:'getName',result:'"Rex"'},
+  {txt:'Make dog1 (Max) bark.',dog:0,meth:'bark',result:'Max says: Woof!'}
+];
+var t=0,score=0,selDog=null,waiting=false;
+var taskEl=document.getElementById('task');
+var fb=document.getElementById('feedback');
+var pr=document.getElementById('prog');
+var dogsEl=document.getElementById('dogs');
+dogs.forEach(function(d){
+  var el=document.createElement('div');el.className='dog-card';el.id='dog'+d.id;
+  el.innerHTML='&#128054;<br><strong>dog'+(d.id+1)+'</strong><br>'+d.name+' (age '+d.age+')<br><em>'+d.breed+'</em>';
+  el.onclick=function(){
+    if(waiting)return;
+    selDog=d.id;
+    dogs.forEach(function(x){document.getElementById('dog'+x.id).classList.remove('selected');});
+    el.classList.add('selected');
+  };
+  dogsEl.appendChild(el);
+});
+function show(){taskEl.textContent=tasks[t].txt;selDog=null;waiting=false;
+  dogs.forEach(function(d){document.getElementById('dog'+d.id).className='dog-card';});
+}
+function pickMeth(m){
+  if(waiting)return;
+  if(selDog===null){fb.style.color='#f44336';fb.textContent='&#10060; Select a dog first!';return;}
+  waiting=true;
+  var cur=tasks[t];
+  if(selDog===cur.dog&&m===cur.meth){
+    score++;document.getElementById('dog'+selDog).classList.add('correct');
+    fb.style.color='#4caf50';fb.textContent='&#10003; '+dogs[selDog].name+'.'+m+'() → '+cur.result;
+  } else if(selDog!==cur.dog){
+    fb.style.color='#f44336';fb.textContent='&#10060; Wrong dog! The task needed dog'+(cur.dog+1)+'.';
+  } else {
+    fb.style.color='#f44336';fb.textContent='&#10060; Wrong method! Needed '+cur.meth+'().';
+  }
+  t++;
+  if(t>=tasks.length){
+    setTimeout(function(){taskEl.textContent='All tasks done! Score: '+score+'/8';
+      fb.style.color='#4caf50';fb.textContent='&#127881; Instance methods called correctly!';pr.textContent='Done!';},1200);
+  } else {
+    setTimeout(function(){pr.textContent='Task '+(t+1)+' / 8';fb.textContent='';show();},1300);
+  }
+}
+show();
+</script>
+</body>
+</html>

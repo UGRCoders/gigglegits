@@ -1,0 +1,80 @@
+---
+permalink: /csa/activities/unit_01/1_5
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Type Transformer</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_5' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Type Transformer</h2>
+<p style="margin:.4em 0 1em;">Casting converts a value from one type to another — click the right cast gate before the value escapes!</p>
+
+<style>
+#arena{position:relative;background:#161b22;border-radius:8px;
+height:180px;width:100%;max-width:480px;overflow:hidden;margin-bottom:12px;}
+#falling{position:absolute;left:50%;transform:translateX(-50%);
+font-size:1.8rem;font-weight:bold;top:10px;}
+.gate{display:inline-block;background:#1f2937;border:2px solid #374151;
+border-radius:8px;padding:12px 10px;text-align:center;cursor:pointer;
+font-weight:bold;font-size:.95rem;margin:2px;width:22%;vertical-align:top;}
+.gate:hover{border-color:#1a73e8;}
+#result{font-family:monospace;font-size:1.1rem;margin:10px 0;min-height:1.6em;}
+#score{font-size:1.1rem;margin-bottom:8px;}
+</style>
+<div id='score'>Score: 0 / 10</div>
+<div id='arena'><div id='falling'></div></div>
+<div>
+<div class='gate' onclick='cast("int")'>(int)</div>
+<div class='gate' onclick='cast("double")'>(double)</div>
+<div class='gate' onclick='cast("String")'>String<br>.valueOf()</div>
+<div class='gate' onclick='cast("boolean")'>(boolean)</div>
+</div>
+<div id='result'></div>
+<script>
+var vals=[
+  {v:'3.7',from:'double',targets:{int:3,double:3.7,String:'"3.7"'}},
+  {v:'42',from:'int',targets:{double:42.0,String:'"42"',int:42}},
+  {v:'true',from:'boolean',targets:{String:'"true"',boolean:true}},
+  {v:'9.9',from:'double',targets:{int:9,double:9.9,String:'"9.9"'}},
+  {v:'100',from:'int',targets:{double:100.0,String:'"100"',int:100}},
+  {v:'7.1',from:'double',targets:{int:7,double:7.1}},
+  {v:'false',from:'boolean',targets:{String:'"false"',boolean:false}},
+  {v:'255',from:'int',targets:{double:255.0,String:'"255"',int:255}},
+  {v:'0.5',from:'double',targets:{int:0,String:'"0.5"'}},
+  {v:'1',from:'int',targets:{double:1.0,boolean:true,String:'"1"'}}
+];
+var score=0,idx=0,waiting=false;
+var falling=document.getElementById('falling');
+var result=document.getElementById('result');
+function showNext(){
+  if(idx>=vals.length){falling.textContent='Done!';result.style.color='#4caf50';result.textContent='Score: '+score+'/10';return;}
+  falling.textContent=vals[idx].v+' ('+vals[idx].from+')';waiting=false;result.textContent='';
+}
+function cast(type){
+  if(waiting||idx>=vals.length)return;
+  waiting=true;
+  var cur=vals[idx];
+  if(cur.targets[type]!==undefined){
+    score++;result.style.color='#4caf50';
+    result.textContent='&#10003; ('+type+')'+cur.v+' = '+cur.targets[type];
+  } else {
+    result.style.color='#f44336';
+    result.textContent='&#10060; Can't directly cast '+cur.from+' to '+type+' that way!';
+  }
+  document.getElementById('score').textContent='Score: '+score+' / 10';
+  idx++;setTimeout(showNext,1300);
+}
+showNext();
+</script>
+</body>
+</html>

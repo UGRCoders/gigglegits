@@ -1,0 +1,83 @@
+---
+permalink: /csa/activities/unit_01/1_6
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Operator Duel</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_6' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Operator Duel</h2>
+<p style="margin:.4em 0 1em;">Operators compute values — pick the operator that transforms the two operands into the target!</p>
+
+<style>
+#display{font-size:1.5rem;text-align:center;padding:18px;background:#161b22;
+border-radius:8px;margin-bottom:14px;letter-spacing:2px;}
+.op{font-size:1.4rem;width:60px;height:50px;border-radius:8px;background:#1f2937;
+border:2px solid #374151;color:#e0e0e0;cursor:pointer;margin:4px;}
+.op:hover{border-color:#1a73e8;}
+#feedback{font-size:1.1rem;margin-top:12px;min-height:1.5em;text-align:center;}
+#rounds{text-align:center;margin-bottom:6px;}
+</style>
+<div id='rounds'>Round 1 / 10</div>
+<div id='display'></div>
+<div style='text-align:center;'>
+<button class='op' onclick='pick("+")'>+</button>
+<button class='op' onclick='pick("-")'>-</button>
+<button class='op' onclick='pick("*")'>*</button>
+<button class='op' onclick='pick("/")'>/</button>
+<button class='op' onclick='pick("%")'>%</button>
+</div>
+<div id='feedback'></div>
+<script>
+var rounds=[
+  {a:8,b:3,op:'+',t:11},{a:10,b:4,op:'-',t:6},{a:6,b:7,op:'*',t:42},
+  {a:15,b:3,op:'/',t:5},{a:17,b:5,op:'%',t:2},{a:9,b:9,op:'*',t:81},
+  {a:20,b:8,op:'-',t:12},{a:100,b:10,op:'/',t:10},{a:13,b:4,op:'%',t:1},
+  {a:7,b:6,op:'+',t:13}
+];
+var r=0,score=0,waiting=false;
+var disp=document.getElementById('display');
+var fb=document.getElementById('feedback');
+var rd=document.getElementById('rounds');
+function show(){
+  var c=rounds[r];
+  disp.textContent=c.a+' ? '+c.b+' = '+c.t;
+  waiting=false;
+}
+function pick(op){
+  if(waiting)return;
+  waiting=true;
+  var c=rounds[r];
+  if(op===c.op){
+    score++;fb.style.color='#4caf50';fb.textContent='&#10003; '+c.a+' '+op+' '+c.b+' = '+c.t;
+  } else {
+    fb.style.color='#f44336';
+    var got;
+    if(op==='+')got=c.a+c.b;else if(op==='-')got=c.a-c.b;
+    else if(op==='*')got=c.a*c.b;else if(op==='/')got=Math.floor(c.a/c.b);else got=c.a%c.b;
+    fb.textContent='&#10060; '+c.a+op+c.b+'='+got+', not '+c.t+'. Answer: '+c.op;
+  }
+  r++;
+  if(r>=rounds.length){
+    setTimeout(function(){
+      disp.textContent='Game over!';
+      fb.style.color='#4caf50';fb.textContent='Final score: '+score+' / 10';rd.textContent='Done!';
+    },1200);
+  } else {
+    setTimeout(function(){rd.textContent='Round '+(r+1)+' / 10';fb.textContent='';show();},1200);
+  }
+}
+show();
+</script>
+</body>
+</html>

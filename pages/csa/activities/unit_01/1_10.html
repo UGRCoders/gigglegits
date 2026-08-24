@@ -1,0 +1,73 @@
+---
+permalink: /csa/activities/unit_01/1_10
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Method Workshop</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_10' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Method Workshop</h2>
+<p style="margin:.4em 0 1em;">Static class methods perform specific jobs — click the right method for each incoming task!</p>
+
+<style>
+#job{background:#161b22;border-radius:8px;padding:16px;font-size:1.1rem;margin-bottom:14px;min-height:2.5em;}
+.meth{display:inline-block;background:#1f2937;border:2px solid #374151;border-radius:8px;
+padding:10px 16px;cursor:pointer;font-family:monospace;font-size:.9rem;margin:4px;}
+.meth:hover{border-color:#1a73e8;}
+#result{font-size:1rem;margin-top:10px;min-height:1.5em;}
+#prog{margin-bottom:8px;}
+</style>
+<div id='prog'>Job 1 / 8</div>
+<div id='job'></div>
+<div>
+<span class='meth' onclick='pick("calcArea")'>calcArea(w, h)</span>
+<span class='meth' onclick='pick("calcPerimeter")'>calcPerimeter(w, h)</span>
+<span class='meth' onclick='pick("getMax")'>getMax(a, b)</span>
+<span class='meth' onclick='pick("getMin")'>getMin(a, b)</span>
+</div>
+<div id='result'></div>
+<script>
+var jobs=[
+  {txt:'Find the area of a 5 x 3 rectangle.',ans:'calcArea',out:'calcArea(5,3) = 15'},
+  {txt:'Which is smaller: 7 or 4?',ans:'getMin',out:'getMin(7,4) = 4'},
+  {txt:'What is the perimeter of a 6 x 2 rectangle?',ans:'calcPerimeter',out:'calcPerimeter(6,2) = 16'},
+  {txt:'Find the larger number between 9 and 3.',ans:'getMax',out:'getMax(9,3) = 9'},
+  {txt:'How many square units in a 4 x 8 room?',ans:'calcArea',out:'calcArea(4,8) = 32'},
+  {txt:'Which is bigger: 12 or 15?',ans:'getMax',out:'getMax(12,15) = 15'},
+  {txt:'Total fence length needed for a 5 x 5 yard?',ans:'calcPerimeter',out:'calcPerimeter(5,5) = 20'},
+  {txt:'Smaller of 20 and 11?',ans:'getMin',out:'getMin(20,11) = 11'}
+];
+var j=0,score=0,waiting=false;
+var jobEl=document.getElementById('job');
+var res=document.getElementById('result');
+var pr=document.getElementById('prog');
+function show(){jobEl.textContent=jobs[j].txt;waiting=false;}
+function pick(m){
+  if(waiting)return;waiting=true;
+  if(m===jobs[j].ans){
+    score++;res.style.color='#4caf50';res.textContent='&#10003; '+jobs[j].out;
+  } else {
+    res.style.color='#f44336';res.textContent='&#10060; Wrong tool! Right answer: '+jobs[j].ans+'()';
+  }
+  j++;
+  if(j>=jobs.length){
+    setTimeout(function(){jobEl.textContent='All jobs done!';
+      res.style.color='#4caf50';res.textContent='Score: '+score+'/8';pr.textContent='Done!';},1200);
+  } else {
+    setTimeout(function(){pr.textContent='Job '+(j+1)+' / 8';res.textContent='';show();},1300);
+  }
+}
+show();
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+---
+permalink: /csa/activities/unit_01/1_13
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Object Factory</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_13' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Object Factory</h2>
+<p style="margin:.4em 0 1em;">Constructors build objects — click the values in the right order to fill each parameter slot!</p>
+
+<style>
+#sig{font-family:monospace;font-size:1rem;background:#161b22;border-radius:8px;
+padding:14px;margin-bottom:12px;}
+.slot{display:inline-block;border:2px dashed #555;border-radius:4px;padding:3px 10px;
+min-width:80px;text-align:center;color:#888;margin:2px;}
+.slot.filled{border-color:#1a73e8;color:#90caf9;}
+.tok{display:inline-block;background:#1f2937;border:2px solid #374151;border-radius:6px;
+padding:6px 12px;margin:4px;cursor:pointer;font-family:monospace;font-size:.9rem;}
+.tok:hover{border-color:#1a73e8;}
+.tok.used{opacity:.3;cursor:default;}
+#msg{margin-top:10px;font-size:1rem;min-height:1.4em;}
+#prog{margin-bottom:8px;}
+</style>
+<div id='prog'>Round 1 / 5</div>
+<div id='sig'></div>
+<div id='slots'></div>
+<p style='margin:8px 0 4px'>Click values in order:</p>
+<div id='toks'></div>
+<div id='msg'></div>
+<script>
+var rounds=[
+  {sig:'Car(String color, int year, double price)',
+   params:['String','int','double'],vals:['"red"','2023','25000.0'],
+   decoys:['"blue"','2024','true','99']},
+  {sig:'Student(String name, int grade, boolean honor)',
+   params:['String','int','boolean'],vals:['"Alice"','10','true'],
+   decoys:['"Bob"','11','false','3.14']},
+  {sig:'Book(String title, String author, int pages)',
+   params:['String','String','int'],vals:['"Harry Potter"','"Rowling"','500'],
+   decoys:['2023','true','"Tolkien"','99']},
+  {sig:'Circle(double radius, String color)',
+   params:['double','String'],vals:['5.0','"red"'],
+   decoys:['42','"blue"','true','3']},
+  {sig:'Player(String name, int score, boolean active)',
+   params:['String','int','boolean'],vals:['"Sam"','1500','true'],
+   decoys:['3.14','false','"Rex"','99']}
+];
+var r=0,slotIdx=0;
+var sigEl=document.getElementById('sig');
+var slotEl=document.getElementById('slots');
+var tokEl=document.getElementById('toks');
+var msg=document.getElementById('msg');
+var pr=document.getElementById('prog');
+function show(){
+  var rd=rounds[r];slotIdx=0;
+  sigEl.textContent=rd.sig;
+  slotEl.innerHTML='';
+  rd.params.forEach(function(p,i){
+    var s=document.createElement('span');s.className='slot';s.id='slot'+i;
+    s.textContent=p+': ?';slotEl.appendChild(s);
+  });
+  tokEl.innerHTML='';
+  var all=rd.vals.concat(rd.decoys).sort(function(){return Math.random()-.5;});
+  all.forEach(function(v){
+    var t=document.createElement('span');t.className='tok';t.textContent=v;
+    t.onclick=function(){
+      if(t.classList.contains('used'))return;
+      if(v===rd.vals[slotIdx]){
+        var s=document.getElementById('slot'+slotIdx);
+        s.textContent=rd.params[slotIdx]+': '+v;s.classList.add('filled');
+        t.classList.add('used');slotIdx++;
+        if(slotIdx===rd.vals.length){
+          msg.style.color='#4caf50';msg.textContent='&#10003; Object assembled! '+rd.sig.split('(')[0]+' created.';
+          r++;
+          if(r>=rounds.length){
+            setTimeout(function(){sigEl.textContent='All rounds complete! &#127881;';tokEl.innerHTML='';slotEl.innerHTML='';pr.textContent='Done!';},1200);
+          } else {
+            setTimeout(function(){pr.textContent='Round '+(r+1)+' / 5';msg.textContent='';show();},1400);
+          }
+        }
+      } else {
+        msg.style.color='#f44336';
+        var exp=rounds[r].params[slotIdx];
+        msg.textContent='&#10060; '+v+' is wrong type for '+exp+'!';
+        setTimeout(function(){msg.textContent='';},900);
+      }
+    };
+    tokEl.appendChild(t);
+  });
+  msg.textContent='';
+}
+show();
+</script>
+</body>
+</html>

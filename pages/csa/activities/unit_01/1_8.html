@@ -1,0 +1,90 @@
+---
+permalink: /csa/activities/unit_01/1_8
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Comment Detective</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_8' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Comment Detective</h2>
+<p style="margin:.4em 0 1em;">Good comments explain WHY, not what — drag the correct description to each blank comment slot!</p>
+
+<style>
+.code-block{background:#0d1117;border:1px solid #30363d;border-radius:8px;
+padding:14px;font-family:monospace;font-size:.9rem;line-height:1.8;}
+.slot{display:inline-block;border:2px dashed #555;border-radius:4px;
+padding:2px 8px;cursor:pointer;min-width:180px;color:#888;}
+.slot.filled{border-color:#1a73e8;color:#90caf9;}
+.slot.correct{border-color:#4caf50;color:#4caf50;}
+.snippet{display:inline-block;background:#1f2937;border:2px solid #374151;
+border-radius:6px;padding:6px 10px;margin:4px;cursor:pointer;font-size:.88rem;}
+.snippet:hover{border-color:#1a73e8;}
+.snippet.placed{opacity:.35;cursor:default;}
+#msg{margin-top:12px;font-size:1rem;min-height:1.4em;}
+</style>
+<div class='code-block'>
+<span id='s0' class='slot' onclick='fillSlot(0)'>// ?</span><br>
+public int add(int a, int b) {<br>
+&nbsp;&nbsp;<span id='s1' class='slot' onclick='fillSlot(1)'>// ?</span><br>
+&nbsp;&nbsp;int result = a + b;<br>
+&nbsp;&nbsp;<span id='s2' class='slot' onclick='fillSlot(2)'>// ?</span><br>
+&nbsp;&nbsp;return result;<br>
+&nbsp;&nbsp;<span id='s3' class='slot' onclick='fillSlot(3)'>// ?</span><br>
+}
+</div>
+<br>
+<div id='snippets'></div>
+<button class='btn' style='margin-top:10px;' onclick='checkAll()'>&#10003; Check Comments</button>
+<div id='msg'></div>
+<script>
+var snippets=[
+  'Adds two integers and returns their sum',
+  'Store the computed sum in result',
+  'a and b are the two operands',
+  'Return the final computed value'
+];
+var correct=[2,0,1,3];
+var placed=[-1,-1,-1,-1];
+var selected=null;
+var sdiv=document.getElementById('snippets');
+snippets.forEach(function(txt,i){
+  var s=document.createElement('span');s.className='snippet';s.textContent=txt;s.dataset.idx=i;
+  s.onclick=function(){
+    if(s.classList.contains('placed'))return;
+    document.querySelectorAll('.snippet').forEach(function(x){x.style.outline='';});
+    selected=i;s.style.outline='2px solid #1a73e8';
+  };
+  sdiv.appendChild(s);
+});
+function fillSlot(slot){
+  if(selected===null)return;
+  placed[slot]=selected;
+  var sl=document.getElementById('s'+slot);
+  sl.textContent='// '+snippets[selected];sl.classList.add('filled');
+  selected=null;
+  document.querySelectorAll('.snippet').forEach(function(x){x.style.outline='';});
+}
+function checkAll(){
+  var all=true;
+  placed.forEach(function(v,i){
+    var sl=document.getElementById('s'+i);
+    if(v===correct[i]){sl.classList.add('correct');sl.classList.remove('filled');}
+    else{sl.style.borderColor='#f44336';all=false;}
+  });
+  var msg=document.getElementById('msg');
+  if(all){msg.style.color='#4caf50';msg.textContent='&#127881; All comments correct! The code is fully documented.';}
+  else{msg.style.color='#f44336';msg.textContent='&#10060; Some slots are wrong — rethink and try again.';}
+}
+</script>
+</body>
+</html>

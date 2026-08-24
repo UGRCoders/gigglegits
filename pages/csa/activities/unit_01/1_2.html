@@ -1,0 +1,68 @@
+---
+permalink: /csa/activities/unit_01/1_2
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Variable Vault</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_2' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; Variable Vault</h2>
+<p style="margin:.4em 0 1em;">Variables hold specific types — catch each falling value in its correct type box!</p>
+
+<style>
+#arena{position:relative;width:100%;max-width:500px;height:220px;
+background:#161b22;border-radius:8px;overflow:hidden;margin-bottom:12px;}
+#val{position:absolute;left:50%;transform:translateX(-50%);top:20px;
+font-size:2rem;font-weight:bold;transition:top .05s;}
+.box{display:inline-block;width:22%;background:#1f2937;border:2px solid #374151;
+border-radius:8px;padding:14px 6px;text-align:center;cursor:pointer;
+font-weight:bold;font-size:1rem;margin:2px;vertical-align:top;}
+.box:hover{border-color:#1a73e8;}
+#score{font-size:1.1rem;margin-bottom:8px;}
+#flash{font-size:1rem;min-height:1.4em;margin-top:8px;}
+</style>
+<div id='score'>Score: 0 / 12</div>
+<div id='arena'><div id='val'></div></div>
+<div>
+<div class='box' onclick='guess("int")'>int<br><small style='font-weight:normal'>whole number</small></div>
+<div class='box' onclick='guess("double")'>double<br><small style='font-weight:normal'>decimal</small></div>
+<div class='box' onclick='guess("String")'>String<br><small style='font-weight:normal'>text</small></div>
+<div class='box' onclick='guess("boolean")'>boolean<br><small style='font-weight:normal'>true/false</small></div>
+</div>
+<div id='flash'></div>
+<script>
+var vals=[{v:'42',t:'int'},{v:'3.14',t:'double'},{v:'"hello"',t:'String'},{v:'true',t:'boolean'},
+{v:'7',t:'int'},{v:'false',t:'boolean'},{v:'"Java"',t:'String'},{v:'2.5',t:'double'},
+{v:'-99',t:'int'},{v:'"code"',t:'String'},{v:'0.001',t:'double'},{v:'true',t:'boolean'}];
+var score=0,idx=0,waiting=false;
+var valEl=document.getElementById('val');
+var flash=document.getElementById('flash');
+function showNext(){
+  if(idx>=vals.length){valEl.textContent='Done!';flash.style.color='#4caf50';flash.textContent='Final score: '+score+'/12';return;}
+  valEl.textContent=vals[idx].v;valEl.style.top='20px';waiting=false;
+}
+function guess(type){
+  if(waiting||idx>=vals.length)return;
+  waiting=true;
+  if(type===vals[idx].t){
+    score++;flash.style.color='#4caf50';flash.textContent='&#10003; Correct! '+vals[idx].v+' is a '+type;
+  } else {
+    flash.style.color='#f44336';flash.textContent='&#10060; Type mismatch! '+vals[idx].v+' is '+vals[idx].t+', not '+type;
+  }
+  document.getElementById('score').textContent='Score: '+score+' / 12';
+  idx++;setTimeout(showNext,1200);
+}
+showNext();
+</script>
+</body>
+</html>

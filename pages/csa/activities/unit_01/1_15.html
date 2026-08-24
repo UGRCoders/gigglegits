@@ -1,0 +1,78 @@
+---
+permalink: /csa/activities/unit_01/1_15
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>String Surgeon</title>
+<style>
+body{background:var(--body-bg,#0d1117);color:var(--text-color,#e0e0e0);font-family:sans-serif;margin:0;padding:20px;}
+.btn{background:#1a73e8;color:white;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:1rem;margin:4px;}
+.btn:hover{opacity:.85;}
+h2{margin:.4em 0;}
+</style>
+</head>
+<body>
+<a href='{{site.baseurl}}/csa/unit_01/1_15' style='color:#1a73e8;'>&#8592; Back to Lesson</a>
+<h2>&#127918; String Surgeon</h2>
+<p style="margin:.4em 0 1em;">Strings have powerful built-in methods — type the correct arguments or expected output for each challenge!</p>
+
+<style>
+#str-display{font-family:monospace;font-size:1.2rem;background:#000;color:#0f0;
+padding:12px 16px;border-radius:6px;margin-bottom:14px;letter-spacing:1px;}
+#challenge{background:#161b22;border-radius:8px;padding:14px;font-size:1.05rem;margin-bottom:10px;}
+.inp{background:#161b22;color:#e0e0e0;border:1px solid #374151;border-radius:6px;
+padding:7px 10px;font-family:monospace;font-size:1rem;width:180px;box-sizing:border-box;}
+#result{font-family:monospace;margin-top:10px;font-size:1rem;min-height:1.5em;}
+#prog{margin-bottom:8px;}
+</style>
+<div id='prog'>Challenge 1 / 8</div>
+<div id='str-display'>"HelloWorldJavaRocks"</div>
+<div id='challenge'></div>
+<input class='inp' id='ans' placeholder='your answer' onkeydown='if(event.key==="Enter")check()'>
+&nbsp;<button class='btn' onclick='check()'>&#9654; Run</button>
+<div id='result'></div>
+<script>
+var S='HelloWorldJavaRocks';
+var challenges=[
+  {q:'What does S.length() return?',ans:'19',hint:'Count all characters'},
+  {q:'S.substring(5, 10) — what does it return?',ans:'World',hint:'from index 5 up to (not including) 10'},
+  {q:'S.indexOf("Java") — what index does "Java" start at?',ans:'10',hint:'Count from 0'},
+  {q:'S.charAt(0) — what character is at index 0?',ans:'H',hint:'First char'},
+  {q:'S.toUpperCase() — type the full result:',ans:'HELLOWORLDJAVAROCKS',hint:'Every letter uppercase'},
+  {q:'"Hello".equals("hello") — true or false?',ans:'false',hint:'equals() is case-sensitive'},
+  {q:'S.substring(14) — what does it return?',ans:'Rocks',hint:'From index 14 to end'},
+  {q:'S.contains("World") — true or false?',ans:'true',hint:'Is "World" inside the string?'}
+];
+var c=0,score=0;
+var ch=document.getElementById('challenge');
+var res=document.getElementById('result');
+var ans=document.getElementById('ans');
+var pr=document.getElementById('prog');
+function show(){ch.textContent=challenges[c].q;ans.value='';ans.focus();res.textContent='';}
+function check(){
+  var v=ans.value.trim();
+  if(!v)return;
+  if(v===challenges[c].ans){
+    score++;res.style.color='#4caf50';res.textContent='&#10003; Correct! → '+challenges[c].ans;
+  } else {
+    res.style.color='#f44336';
+    res.textContent='&#10060; Got "'+v+'" — expected "'+challenges[c].ans+'". Hint: '+challenges[c].hint;
+  }
+  c++;
+  if(c>=challenges.length){
+    setTimeout(function(){
+      ch.textContent='All challenges complete!';
+      res.style.color='#4caf50';res.textContent='Score: '+score+' / 8 — String methods mastered!';
+      pr.textContent='Done!';ans.style.display='none';
+    },1300);
+  } else {
+    setTimeout(function(){pr.textContent='Challenge '+(c+1)+' / 8';show();},1300);
+  }
+}
+show();
+</script>
+</body>
+</html>
