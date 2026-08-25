@@ -361,3 +361,15 @@ Extend the `Calculator` class. Check off each one as you finish it — your prog
   render();
 })();
 </script>
+
+
+<script>
+(function () {
+  try {
+    var KEY = 'csa-hub-progress';
+    var progress = JSON.parse(localStorage.getItem(KEY) || '{}');
+    progress['calculator-lesson'] = true;
+    localStorage.setItem(KEY, JSON.stringify(progress));
+  } catch (e) {}
+})();
+</script>

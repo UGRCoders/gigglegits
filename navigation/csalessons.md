@@ -71,7 +71,32 @@ units:
     </a>
     {% endfor %}
   </div>
+
+  <div class="csa-hub__final-quiz" id="csa-final-quiz" hidden>
+    <p class="csa-hub__final-quiz-label">You've opened all 4 units.</p>
+    <a class="csa-hub__final-quiz-btn" href="/csa/final-quiz">
+      Final Quiz <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
 </div>
+
+<script>
+(function () {
+  var REQUIRED_UNITS = [
+    {% for unit in page.units %}"{{ unit.Lessons | split: '/' | last }}"{% unless forloop.last %},{% endunless %}{% endfor %}
+  ];
+  var section = document.getElementById('csa-final-quiz');
+  if (!section) return;
+
+  try {
+    var progress = JSON.parse(localStorage.getItem('csa-hub-progress') || '{}');
+    var allOpened = REQUIRED_UNITS.every(function (slug) { return !!progress[slug]; });
+    if (allOpened) {
+      section.hidden = false;
+    }
+  } catch (e) {}
+})();
+</script>
 
 <style>
   .csa-hub {
@@ -207,5 +232,47 @@ units:
   .csa-hub__cta span {
     display: inline-block;
     transition: margin-left 0.2s ease;
+  }
+
+  .csa-hub__final-quiz {
+    margin-top: 36px;
+    padding: 28px 24px;
+    text-align: center;
+    background: var(--pref-bg-color);
+    border: 1px solid var(--ui-border);
+    border-radius: 14px;
+  }
+
+  .csa-hub__final-quiz-label {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .csa-hub__final-quiz-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    border-radius: 999px;
+    background: var(--pref-accent-color);
+    color: var(--pref-bg-color);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .csa-hub__final-quiz-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .csa-hub__final-quiz-btn span {
+    transition: margin-left 0.2s ease;
+  }
+
+  .csa-hub__final-quiz-btn:hover span {
+    margin-left: 4px;
   }
 </style>

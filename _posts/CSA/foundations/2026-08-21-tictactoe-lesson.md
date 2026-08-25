@@ -371,3 +371,15 @@ Extend the `TicTacToeBoard` class above. Check off each one as you finish it —
   render();
 })();
 </script>
+
+
+<script>
+(function () {
+  try {
+    var KEY = 'csa-hub-progress';
+    var progress = JSON.parse(localStorage.getItem(KEY) || '{}');
+    progress['tictactoe-lesson'] = true;
+    localStorage.setItem(KEY, JSON.stringify(progress));
+  } catch (e) {}
+})();
+</script>

@@ -497,3 +497,15 @@ Extend the examples above. Check off each one as you finish it — your progress
   render();
 })();
 </script>
+
+
+<script>
+(function () {
+  try {
+    var KEY = 'csa-hub-progress';
+    var progress = JSON.parse(localStorage.getItem(KEY) || '{}');
+    progress['data-collections-lesson'] = true;
+    localStorage.setItem(KEY, JSON.stringify(progress));
+  } catch (e) {}
+})();
+</script>

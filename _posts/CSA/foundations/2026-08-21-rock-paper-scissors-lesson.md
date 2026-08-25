@@ -353,3 +353,15 @@ Extend the Rock Paper Scissors logic above. Check off each one as you finish it 
   render();
 })();
 </script>
+
+
+<script>
+(function () {
+  try {
+    var KEY = 'csa-hub-progress';
+    var progress = JSON.parse(localStorage.getItem(KEY) || '{}');
+    progress['rock-paper-scissors-lesson'] = true;
+    localStorage.setItem(KEY, JSON.stringify(progress));
+  } catch (e) {}
+})();
+</script>
