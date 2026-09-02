@@ -1,0 +1,261 @@
+---
+permalink: /assignments
+title: Assignment Tracker
+search_exclude: true
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment Tracker</title>
+<style>
+  body {
+    background: var(--body-bg, #0d1117);
+    color: var(--text-color, #e0e0e0);
+    font-family: sans-serif;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { margin-bottom: 8px; }
+  h2 { margin: 24px 0 10px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg, #161b22);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--ui-border, #30363d);
+    font-size: 0.9rem;
+  }
+  th { background: var(--header-bg, #1f2937); font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--hover-bg, #1c2533); }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .badge-pending  { background: #6b3a10; color: #f97316; }
+  .badge-complete { background: #0f3d1f; color: #22c55e; }
+  .badge-default  { background: #1f2937; color: #9ca3af; }
+  form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    background: var(--card-bg, #161b22);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  form input, form select {
+    padding: 8px 10px;
+    border: 1px solid var(--ui-border, #30363d);
+    border-radius: 6px;
+    background: var(--input-bg, #0d1117);
+    color: var(--text-color, #e0e0e0);
+    font-size: 0.9rem;
+  }
+  .form-row { grid-column: 1 / -1; display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .btn-primary  { background: #1a73e8; color: #fff; }
+  .btn-danger   { background: #b91c1c; color: #fff; }
+  .btn-success  { background: #15803d; color: #fff; }
+  .btn:hover    { opacity: 0.85; }
+  #status-msg {
+    min-height: 24px;
+    font-size: 0.85rem;
+    color: #22c55e;
+    margin-bottom: 8px;
+  }
+  #error-msg {
+    min-height: 24px;
+    font-size: 0.85rem;
+    color: #f87171;
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Assignment Tracker</h1>
+<p style="color: var(--text-muted, #9ca3af); margin-top: 4px;">Manage your school assignments</p>
+
+<h2>Add Assignment</h2>
+<form id="create-form">
+  <input id="f-title"   type="text"   placeholder="Title"          required />
+  <input id="f-subject" type="text"   placeholder="Subject"        required />
+  <input id="f-desc"    type="text"   placeholder="Description"    />
+  <input id="f-due"     type="date"   placeholder="Due Date"       />
+  <input id="f-points"  type="number" placeholder="Points" min="0" />
+  <select id="f-status">
+    <option value="pending">Pending</option>
+    <option value="in progress">In Progress</option>
+    <option value="complete">Complete</option>
+  </select>
+  <div class="form-row">
+    <button type="submit" class="btn btn-primary">Add Assignment</button>
+  </div>
+</form>
+<div id="status-msg"></div>
+<div id="error-msg"></div>
+
+<h2>All Assignments</h2>
+<table id="assignments-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Subject</th>
+      <th>Description</th>
+      <th>Due Date</th>
+      <th>Points</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="assignments-body">
+    <tr><td colspan="8" style="text-align:center; color:#9ca3af;">Loading...</td></tr>
+  </tbody>
+</table>
+
+<script type="module">
+  import { javaURI } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+  const API = javaURI + '/api/homework';
+
+  const tbody      = document.getElementById('assignments-body');
+  const statusMsg  = document.getElementById('status-msg');
+  const errorMsg   = document.getElementById('error-msg');
+
+  function showStatus(msg) { statusMsg.textContent = msg; errorMsg.textContent = ''; }
+  function showError(msg)  { errorMsg.textContent = msg; statusMsg.textContent = ''; }
+  function clearMsgs()     { statusMsg.textContent = ''; errorMsg.textContent = ''; }
+
+  function badgeClass(status) {
+    if (!status) return 'badge-default';
+    const s = status.toLowerCase();
+    if (s === 'complete') return 'badge-complete';
+    if (s === 'pending' || s === 'in progress') return 'badge-pending';
+    return 'badge-default';
+  }
+
+  async function loadAssignments() {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#9ca3af;">Loading...</td></tr>';
+    try {
+      const res = await fetch(API, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      renderTable(data);
+    } catch (e) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#f87171;">Failed to load: ' + e.message + '</td></tr>';
+    }
+  }
+
+  function renderTable(items) {
+    if (!items || items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#9ca3af;">No assignments yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = items.map(a => `
+      <tr data-id="${a.id}">
+        <td>${a.id}</td>
+        <td>${esc(a.title)}</td>
+        <td>${esc(a.subject)}</td>
+        <td>${esc(a.description || '')}</td>
+        <td>${esc(a.dueDate || '')}</td>
+        <td>${a.points}</td>
+        <td><span class="badge ${badgeClass(a.status)}">${esc(a.status || '')}</span></td>
+        <td>
+          <button class="btn btn-success" onclick="markComplete(${a.id})">Mark Complete</button>
+          <button class="btn btn-danger"  onclick="deleteAssignment(${a.id})" style="margin-left:6px;">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  document.getElementById('create-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    clearMsgs();
+    const body = {
+      title:       document.getElementById('f-title').value.trim(),
+      subject:     document.getElementById('f-subject').value.trim(),
+      description: document.getElementById('f-desc').value.trim(),
+      dueDate:     document.getElementById('f-due').value,
+      points:      parseInt(document.getElementById('f-points').value) || 0,
+      status:      document.getElementById('f-status').value,
+    };
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      showStatus('Assignment created.');
+      e.target.reset();
+      loadAssignments();
+    } catch (err) {
+      showError('Create failed: ' + err.message);
+    }
+  });
+
+  window.markComplete = async function(id) {
+    clearMsgs();
+    try {
+      const getRes = await fetch(API + '/' + id, { headers: { 'Content-Type': 'application/json' } });
+      if (!getRes.ok) throw new Error('HTTP ' + getRes.status);
+      const item = await getRes.json();
+      item.status = 'complete';
+      const putRes = await fetch(API + '/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item),
+      });
+      if (!putRes.ok) throw new Error('HTTP ' + putRes.status);
+      showStatus('Marked complete.');
+      loadAssignments();
+    } catch (err) {
+      showError('Update failed: ' + err.message);
+    }
+  };
+
+  window.deleteAssignment = async function(id) {
+    clearMsgs();
+    if (!confirm('Delete this assignment?')) return;
+    try {
+      const res = await fetch(API + '/' + id, { method: 'DELETE' });
+      if (res.status !== 204) throw new Error('HTTP ' + res.status);
+      showStatus('Deleted.');
+      loadAssignments();
+    } catch (err) {
+      showError('Delete failed: ' + err.message);
+    }
+  };
+
+  loadAssignments();
+</script>
+
+</body>
+</html>
